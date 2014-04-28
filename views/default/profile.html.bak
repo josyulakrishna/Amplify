@@ -1,0 +1,90 @@
+{{extend 'flatLayout.html'}}
+{{name=(auth.user.first_name)+" "+(auth.user.last_name)}}
+<script>
+      jQuery(document).ready(function ($) {
+        $('#tabs').tab();
+    });
+</script>
+<style>
+	/*Style common for all pages navbar design*/
+
+    .navbar-inner{
+        background:rgba(255, 255, 255, 1);    
+    }
+	.navbar .nav > li > a {
+        <!color: #FFFFFF;-->
+    }    
+    .navbar{
+        border-bottom: 4px solid rgba(46, 204, 113, 1);
+    }
+	/*End of Style common for all pages */
+	
+	.circle {
+		  display: inline-block;
+		  width: 150px;
+		  height: 150px;
+		  margin: 1em auto;
+		  background-size: cover;
+		  background-repeat: no-repeat;
+		  background-position: center center;
+		  -webkit-border-radius: 99em;
+		  -moz-border-radius: 99em;
+		  border-radius: 99em;
+		  border: 5px solid #eee;
+		  box-shadow: 0 3px 2px rgba(0, 0, 0, 0.3);
+	      position:relative;
+	      z-index:10;
+       
+	}
+
+    .circle::after{
+        position:absolute;
+        left:200px;
+        top:70px;
+        font-size:large;
+        font-weight:bold;
+        content:"{{=(name)}}";
+    }
+   
+    #content{
+    	
+        position:relative;
+        left:110px;
+        top:-40px;
+        /*h-shadow v-shadow blur spread color*/
+	    box-shadow: 1px 0px 2px 2px #888888;
+        height:500px;
+	    overflow:scroll;
+        border-radius:5px;
+        z-index:9;
+        padding: 10px;
+
+    }
+
+</style>
+    
+    <div class="circle" style="background-image:url({{=Gravatar(auth.user.email).thumb}})"></div>
+<div class="span12">
+<div id="content"> 
+    	<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+        	<li class="active"><a href="#posts" data-toggle="tab">Posts</a></li>
+	        <li><a href="#edit" data-toggle="tab">Edit</a></li>
+    	</ul>
+		    <div id="my-tab-content" class="tab-content">
+	        <div class="tab-pane active" id="posts">Posts</div>
+                <div class="tab-pane" id="edit">
+{{
+if request.args(0)=='login':
+    if not 'register' in auth.settings.actions_disabled:
+        form.add_button(T('Register'),URL(args='register', vars={'_next': request.vars._next} if request.vars._next else None),_class='btn btn-block btn-lg btn-primary')
+    pass
+    if not 'request_reset_password' in auth.settings.actions_disabled:
+        form.add_button(T('Lost Password'),URL(args='request_reset_password'),_class='btn btn-block btn-lg btn-primary')
+    pass
+pass
+=form
+}}
+    </div><!--End of edit pane-->
+    </div>
+</div>
+</div>

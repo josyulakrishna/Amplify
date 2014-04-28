@@ -1,0 +1,144 @@
+{{extend 'flatLayout.html'}}
+<style>
+	
+	body, html {
+  		height: 100%;
+	}
+
+	.navbar-inner{
+        background:rgba(255, 255, 255, 1);
+    }
+
+    .navbar{
+        border-bottom: 4px solid rgba(46, 204, 113, 1);
+    }
+
+	
+	#newsCategories{
+        height:100%;
+    }
+    #newsCategories ul{
+         list-style-type: none;
+    }
+    .side-nav{
+        padding-top:28px;
+    }
+    
+    .side-nav li a{
+        padding:225px,50px;
+        padding-top:20px;
+        padding-bottom:20px;
+        border-top:bold;
+        background:transparent; 
+        font-size: initial;
+		color:azure;
+    }
+
+    .nav-menu:hover{
+        color:black;
+    }
+
+    .myColor{
+       color:white; 
+    }
+	.input-append .btn.dropdown-toggle {
+	    float: none;
+	}
+    #create_news::after{
+        clear:both;
+    }
+</style>
+
+<script>
+    $(document).ready(function (){
+    	$('#post').click(function(){
+    		var des = $('#description').val();
+    		var link = $('#link').val();
+            var category = $("#categories").find("option:selected").val();
+            if (category=="Select"||category==""){
+                alert("Please select a category");
+            }
+            else{
+            category=category.replace("and", "");
+            category=category.replace(/ /g,'');
+
+            alert(category);
+            if (link==''){ 
+				alert("url cannot be empty");
+				$('.form-group').addClass("has-error");
+            }
+            else{
+            $.ajax({
+                url :'post_news',
+                data : { 'des' : des, 'link':link,'category':category},
+            	context: document.body
+
+            }).done(function(){
+                alert("done");
+                $('#description').val('');
+                $('#link').val('');
+                });
+            }
+       }
+});//end of the post click function
+        $('.like').click(function(){
+            var id = $(this).attr("postid");
+           $.ajax({
+               url:'like',
+               data : {'id':id}
+            }).done(function(){alert("done");});
+
+        });
+        $('.Category').click(function(){
+            var category =  $(this).html();
+            $.ajax({
+                	url: '{{=URL('news','fetchNews')}}',
+                   data: {'category':category}
+                   }).done(function(){alert("done")});
+        });
+    });
+</script>
+
+{{ newsbar_enabled = False}}
+<br><br>
+{{if fill:}}
+{{newsbar_enabled = True}}
+
+{{pass}}
+
+
+   <nav>
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+          <ul class="nav navbar-nav side-nav ">
+	        {{for category in allCategories:}}
+    	    {{=LI(A(category, _class="nav-menu" ))}}
+        	{{pass}}
+	      </ul>    
+	</div><!-- navbar brand-->
+	</nav>
+<div style="margin-left:228px;">
+    		<h1 class="lead">Post your thoughts here!</h1>
+    		<div id='create_news'>
+                <textarea id = "description" placeholder="what's on your mind?"></textarea>             
+				<div  class="form-group">
+	        	<input type="text" value="" id="link" placeholder="URL" class="form-control">
+                </div>
+				<select id="categories">
+                  <option id="category" value="Select">Select</option>
+				  {{for category in allCategories:}}
+				  <option id="category" value="{{=category}}">{{=category}}</option>
+           		{{pass}}
+				</select>
+<button id="post" type="submit" style="margin-left:20px;padding-left:30px;padding-right:30px;" class="btn btn-warning">Post!</button>
+			</div>
+{{if newsbar_enabled:}}
+{{block newbar:}}
+    <div class="posts_container">
+            		<h1 class="lead">Thoughts for you</h1>
+    </div>
+{{end}}
+{{else:}}
+    <p>    <a href="{{=URL(c="default",f="interests")}}"> Please fill out your interests to see this </a></p>
+
+{{pass}}
+</div>

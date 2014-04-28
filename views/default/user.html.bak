@@ -1,0 +1,51 @@
+{{extend 'flatLayout.html'}}
+<style>
+	.navbar-inner{
+        background:rgba(255, 255, 255, 1);    
+    }
+	.navbar .nav > li > a {
+        <!color: #FFFFFF;-->
+    }    
+    .navbar{
+        border-bottom: 4px solid rgba(46, 204, 113, 1);
+    }
+     .circle {
+		  display: inline-block;
+		  width: 150px;
+		  height: 150px;
+		  margin: 1em auto;
+		  background-size: cover;
+		  background-repeat: no-repeat;
+		  background-position: center center;
+		  -webkit-border-radius: 99em;
+		  -moz-border-radius: 99em;
+		  border-radius: 99em;
+		  border: 5px solid #eee;
+		  box-shadow: 0 3px 2px rgba(0, 0, 0, 0.3);  
+	}
+    </style>
+    
+<h2>{{=T( request.args(0).replace('_',' ').capitalize() )}}</h2>
+<div id="web2py_user_form">
+{{if 'profile' in request.args:}}
+    <div class="circle" style='background-image:url({{=Gravatar(auth.user.email).thumb}})'></div> 
+{{pass}}
+{{
+if request.args(0)=='login':
+    if not 'register' in auth.settings.actions_disabled:
+        form.add_button(T('Register'),URL(args='register', vars={'_next': request.vars._next} if request.vars._next else None),_class='btn btn-block btn-lg btn-primary')
+    pass
+    if not 'request_reset_password' in auth.settings.actions_disabled:
+        form.add_button(T('Lost Password'),URL(args='request_reset_password'),_class='btn btn-block btn-lg btn-primary')
+    pass
+pass
+}}
+</div>
+<script language="javascript"><!--
+jQuery("#web2py_user_form input:visible:enabled:first").focus();
+{{if request.args(0)=='register':}}
+    web2py_validate_entropy(jQuery('#auth_user_password'),100);
+{{elif request.args(0)=='change_password':}}
+    web2py_validate_entropy(jQuery('#no_table_new_password'),100);
+{{pass}}
+//--></script>

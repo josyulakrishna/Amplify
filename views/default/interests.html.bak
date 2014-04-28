@@ -1,0 +1,125 @@
+{{extend 'flatLayout.html'}}
+<style>	
+	.navbar-inner{
+        background:rgba(255, 255, 255, 1);    
+    }
+	.navbar .nav > li > a {
+        <!color: #FFFFFF;-->
+    }    
+    .navbar{
+        border-bottom: 4px solid rgba(46, 204, 113, 1);
+    }
+    .interest, .addInterest {
+    width: 125px;
+	height: 125px;
+   	background: ;
+   	border-radius: 50%;
+	border:5px solid #95A5A6;
+    }
+
+    .span8 ul{
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	}
+
+	#iSelection li { 
+        margin:15px;
+     	display: inline;
+     }
+     
+    .filled {
+		margin-left: 20px;
+		margin-right: 60px;
+		margin-top: 20px;
+		margin-bottom: 20px;
+    }
+</style>
+<script>
+	$(document).ready(function (){
+	var allinterests = '';
+	var remove = 'false';
+	$('.interest').bind("click",function(){
+	    $(this).toggleClass('btn-success addInterest');
+        $(this).toggleClass('btn-inverse');
+          });
+    $('.addInterest').bind("click",function(){
+        $(this).toggleClass('btn-success addInterest');
+          $(this).addClass("interest");
+          });
+          
+    $('#finish').click(function(){
+    allinterests = $(".addInterest").map(function() {
+    return this.innerHTML;
+}).get();
+        if(allinterests.length >=2){
+	$.ajax({
+        url : 'set_interests',
+        	data : { 'allinterests' : allinterests},
+            context: document.body,
+
+    }).done(function(){alert('done');
+                       window.location.replace({{=URL(c="news" ,f="social")}});
+    });
+    }
+	else{
+    alert("Please select atleast two");                   
+    }
+    });
+    
+});
+
+</script>
+{{unfilled_enabled = False}}
+{{filled_enabled = False}}
+{{ if 'noInterest' in locals(): }}
+{{unfilled_enabled = True}}
+{{else:}}
+{{filled_enabled = True}}
+{{pass}}
+{{if unfilled_enabled:}}
+{{block unfilled}}
+<div>
+    <p class="lead"><strong>Lets get started, Select atleast two interesting thoughts.</strong></p>
+</div>
+<br><br>
+<div>
+	<ul class="span8 offset1" id="iSelection">
+        <li><button class='btn btn-inverse interest'>Science</button></li>
+        <li><button class='btn btn-inverse interest'>Arts</button></li>
+        <li><button class='btn btn-inverse interest'>Bussiness and Economy</button></li>
+        <li><button class='btn btn-inverse interest'>Computers and Techonology</button></li>
+    </ul>
+	<ul class="span8 offset1" id="iSelection">
+        <li><button class='btn btn-inverse interest'>Health</button></li>
+        <li><button class='btn btn-inverse interest'>Home and Domestic Life</button></li>
+        <li><button class='btn btn-inverse interest'>News</button></li>
+        <li><button class='btn btn-inverse interest'>Recreation Activities</button></li>
+    </ul>
+    <ul class="span8 offset1" id="iSelection">
+    	<li><button class='btn btn-inverse interest'>Reference Education</button></li>
+        <li><button class='btn btn-inverse interest'>Shopping</button></li>
+        <li><button class='btn btn-inverse interest'>Society</button></li>
+        <li><button class='btn btn-inverse interest'>Sports</button></li>
+	</ul>
+</div>
+
+{{end}}
+{{pass}}
+
+{{if filled_enabled:}}
+	{{block filled}}
+		<div class="row-fluid">
+			{{for k,v in filled_interests.items():}}
+					{{if v:}}
+						<button class='btn btn-success addInterest filled'>{{=k}}</button>
+					
+					{{else:}}
+						<button class='btn btn-inverse interest filled'>{{=k}}</button>
+					{{pass}}
+			{{pass}}
+		</div>
+
+	{{end}}
+{{pass}}
+<button class="btn btn-large btn-block btn-primary span4 offset2" type="submit" id="finish" style="clear:both;margin-top:3%;border:2px #F39C12 solid;">Finish!</button>

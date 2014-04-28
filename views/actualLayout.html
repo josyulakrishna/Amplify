@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{{=response.title or request.application}}</title>
+<meta name="application-name" content="{{=request.application}}" />
+<!--  Mobile Viewport Fix
+        j.mp/mobileviewport & davidbcalhoun.com/2010/viewport-metatag
+        device-width: Occupy full width of the screen in its current orientation
+        initial-scale = 1.0 retains dimensions instead of zooming out if page height > device height
+        user-scalable = yes allows the user to zoom in -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="{{=URL('static','images/favicon.ico')}}" type="image/x-icon">
+  <link rel="apple-touch-icon" href="{{=URL('static','images/favicon.png')}}">
+  
+  <!-- include stylesheets -->
+  {{  
+  #response.files.append(URL('static','css/web2py.css'))
+  #response.files.append(URL('static','css/bootstrap.min.css'))
+  #response.files.append(URL('static','css/bootstrap-responsive.min.css'))
+  #response.files.append(URL('static','css/web2py_bootstrap.css'))
+  #response.files.append(URL('static','css/theme-dark.css'))
+  response.files.append(URL('static','css/modern.css'))
+  response.files.append(URL('static','css/modern-responsive.css'))
+  response.files.append(URL('static','css/calendar.css'))
+  
+  }}
+ {{include 'web2py_ajax.html'}}
+    <style>
+        .navbarpadding 
+            {
+            padding:10px;
+        	}
+    </style>
+    </head>
+ <noscript><link href="{{=URL('static', 'css/web2py_bootstrap_nojs.css')}}" rel="stylesheet" type="text/css" /></noscript>
+ <body class = "metrouicss" >
+     <div class="nav-bar ">
+ 	  <div class="nav-bar-inner padding10">
+          <span  class="element brand"><span style="font-size:35px">Amplify</span></span>
+	 	  	<span class="divider"></span>
+              <ul class="menu">
+              <li data-role="dropdown">
+                  {{if not auth.is_logged_in:}}{{=A('Login', _href="#")}}
+                  {{pass}}
+                  {{if auth.is_logged_in:}}
+                  {{=A(str(user_bar()[0]), _href="#")}}
+                  {{pass}}
+                  <ul class="dropdown-menu">{{for action in user_bar():}}
+                      {{=LI(action)}}
+                      {{pass}}
+                  </ul>
+          		</li>
+          </ul>
+       </div>
+	</div>
+     
+     {{include}}
+  <script src="{{=URL('static','js/modernizr.custom.js')}}"></script>
+  <script src="{{=URL('static','javascript/dropdown.js')}}"></script>
+  <script src="{{=URL('static','js/bootstrap.min.js')}}"></script>
+  <script src="{{=URL('static','js/web2py_bootstrap.js')}}"></script>
+  
+</body>
+</html>

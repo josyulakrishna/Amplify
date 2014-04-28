@@ -1,0 +1,83 @@
+{{extend 'flatLayout.html'}}
+<style>
+	.navbar-inner{
+        background:rgba(255, 255, 255, 1);    
+    }
+	.navbar .nav > li > a {
+        <!color: #FFFFFF;-->
+    }    
+    .navbar{
+        border-bottom: 4px solid rgba(46, 204, 113, 1);
+    }
+    
+	body, html {
+  		height: 100%;
+	}
+    
+	#newsCategories{
+        height:100%;
+    }
+    #newsCategories ul{
+         list-style-type: none; 
+    }
+    #newsCategories ul li{
+        display:inline;
+    }
+</style>
+
+<script>
+    $(document).ready(function (){
+    	$('#post').click(function(){
+    		var des = $('#description').val();
+    		var link = $('#link').val();
+            if (link==''){ alert("url cannot be empty");}
+            else{
+            $.ajax({
+      	    	url : 'post_news',
+                data : { 'des' : des, 'link':link},
+            	context: document.body
+
+            }).done(function(){
+                alert("done");
+                $('#description').val('');
+                $('#link').val('');
+                });
+            }
+    		
+    	});
+        $('.like').click(function(){
+            var id = $(this).attr("postid");
+           $.ajax({
+               url:'like', 
+               data : {'id':id}
+            }).done(function(){alert("done");}); 
+            
+        });
+    });
+</script>
+{{ newsbar_enabled = False}}
+<br><br>
+{{#if login:}}
+{{newsbar_enabled = True}}
+{{#pass}}
+
+{{#if newsbar_enabled:}}
+{{block newsbar}}
+<div class="row-fluid">
+	<div class="span3" id="newsCategories" style="background:#34495E">
+        {{for category in allCategories:}}
+        {{=UL(LI({{=category}}))}}
+            
+        
+        
+        </div>
+        
+	<div class="span9">
+    		<h1 class="lead">Thoughts for you</h1>
+    		<div id='create_news'>
+                <textarea id = "description" placeholder="what's on your mind?"></textarea>
+                <textarea id = "link" placeholder="url"></textarea><br/>
+    			<button id="post" type="submit" style="padding-left:30px;padding-right:30px;" class="btn btn-warning">Post!</button>	
+			</div>
+	</div>
+</div>
