@@ -57,15 +57,16 @@ db.define_table('user_interests', Field('user_id',db.auth_user), Field("Science"
 
 db.define_table('user_post', Field('posted_by_user', db.auth_user), Field('liked_by_user','list:integer'), Field('topic'), Field('url'), Field('description'))
 
-db.define_table( 'model_posts', Field('link'), Field('description'), Field('topic') )
+#db.define_table( 'model_posts', Field('link'), Field('description'), Field('topic') )
 
 db.define_table('user_clusters', Field('user_id',db.auth_user),Field('cluster_id'))
 
 db.define_table('knnRef', Field('cluster_id'),Field("Science",'double'),Field("Arts",'double'), Field("BusinessEconomy",'double'), Field("ComputersTechnology",'double'), Field("Health",'double'), Field("HomeDomesticLife",'double'), Field("News",'double'), Field("RecreationActivities",'double'), Field("ReferenceEducation",'double'), Field("Shopping",'double'), Field("Society",'double'), Field("Sports",'double')) 
 
 total = len(db(db.auth_user.id>0).select())
-print(total)
 
+#print(total)
 #db.user_interests._after_insert.append(make_clusters)
 #db.user_interests._after_update.append(make_clusters)
+
 allCategories = ['Science', 'Arts', 'Bussiness and Economy', 'Computers and Techonology', 'Health', 'Home and Domestic Life', 'News','Recreation Activities', 'Reference Education', 'Shopping', 'Society', 'Sports']

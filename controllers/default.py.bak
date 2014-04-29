@@ -39,6 +39,7 @@ def userprofile():
      posts = db(db.user_post.posted_by_user==user).select()
      print posts
      return locals()
+
 def news():
     redirect(URL(c="news",f="social"))
     
@@ -114,12 +115,51 @@ def set_interests():
             field_list[index] = False
     fieldDict = dict(zip(db.user_interests.fields[2:], field_list))
     fieldDict['user_id']  = auth.user_id
-    row = db.user_interests(user_id=auth.user_id)
-    print(row)
+    print fieldDict
+    row = db(db.user_interests.user_id==auth.user_id).select()
+    print row
+    row = db(db.user_interests.user_id==auth.user_id).count()
+    print row
     if row:
-        row.update_record(**fieldDict)
+        print "if"
+        db(db.user_interests.user_id==auth.user_id).update(**fieldDict)
+        if db(db.user_clusters.id > 0).count() > 100: 
+            print "calling knn select"
+            knnSelect(auth.user_id)
+        else:
+            print "calling make_clusters"
+            make_clusters()
     else:
+        print "in else"
         db.user_interests.insert(**fieldDict)
-    #db.user_interests.insert(user_id = auth.user_id , *field_list)
+        if db(db.user_clusters.id > 0).count() > 100: 
+            print "calling knn select"
+            knnSelect(auth.user_id)
+        else:
+            print "calling make_clusters"
+            make_clusters()
 
+    
+    #db.user_interests.insert(user_id = auth.user_id , *field_list)
     return True
+
+#Getting posts for the user
+def get_posts(): 
+    #user id of the user
+     userid = auth.user_id
+     row = db(db.user_clusters.user_id == userid).select().first()
+     clusterid =  int(row.cluster_id)
+     #getting users in the cluster
+     rows = db(db.user_clusters.cluster_id == clusterid).select()
+
+     #users in the cluster
+     users = []
+     for row in rows: 
+        users.append(row.user_id)
+      
+    #getting the user posts
+     posts ={}
+     for user in users: 
+        for post in db(db.user_post.posted_by_user == user).select(): # selecting the user posts
+            posts.setdefault(user, []).append((post.description, post.url, post.liked_by_user))
+     return posts

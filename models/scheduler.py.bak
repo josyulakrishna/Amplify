@@ -44,9 +44,8 @@ def make_clusters():
     print user_index
     print d
     for j in range(len(d)):
-        pass
-        db.user_clusters.insert(user_id = user_index[j], cluster_id = d[j] )
-    #knnMake()
+        db.user_clusters.insert(user_id = user_index[j], cluster_id = int(d[j]) )
+    knnMake()
     return 0
 
 def knnMake():
@@ -93,7 +92,7 @@ def knnMake():
        tArrayUserInterests = tArrayUserInterests.astype(np.float)
        nArrayUserInterests = scale(tArrayUserInterests, axis=0, with_mean=True, with_std=True, copy=True )
        avgtArrayUserInterests = tArrayUserInterests.sum(axis=0)/float(len(clusterInterests[k]))
-       db.knnRef.insert(cluster_id = k ,**dict(zip(db.knnRef.fields[2:],avgtArrayUserInterests)))
+       db.knnRef.insert(cluster_id = int(k) ,**dict(zip(db.knnRef.fields[2:],avgtArrayUserInterests)))
     print "finished making clusters"
     return 0
     
@@ -101,9 +100,11 @@ def knnMake():
     
 #code for selecting the appropriate cluster to the newly registered user.
 #triggers when the on_register of db event has occured
-def knnSelect():
+def knnSelect(userid):
     #getting all rows into an numpy array
     aggregateRows = [] 
+    print db.knnRef.fields[1:]
+    print len(db.knnRef.fields[1:])
     for row in db(db.knnRef.id>0).select(): 
         aRow = []
         for field in db.knnRef.fields[1:]:
@@ -112,16 +113,32 @@ def knnSelect():
     #making the knn operations
     aggregateRows = np.array(aggregateRows)
     aggregateRows = aggregateRows.astype(float)
+    print "computing knn"
     knnOut = aggregateRows[:, 0]
     knnIn = aggregateRows[:,1:]
     knn = neighbors.KNeighborsClassifier( weights='distance',metric='minkowski')
     knn.fit(knnIn, knnOut) 
-    print knn.predict(np.array([random.randrange(2) for i in range(12)]))
+    for row in db(db.user_interests.user_id == userid).select():
+        aRow = []
+        for field in db.knnRef.fields[2:]:
+               aRow.append(row[field])
+    print aRow
+    print len(aRow)
+    aRow = np.array(aRow[1:])
+    aRow = aRow.astype(float)
+    clusterId =  knn.predict(aRow)
+    nRow = db(db.user_clusters.user_id == userid).count()
+    if nRow:
+        temp = int(clusterId[0])
+        db(db.user_clusters.user_id == userid).update(cluster_id = temp )
+    else: 
+        db.user_clusters.insert(user_id=userid, cluster_id=int(clusterId[0] ))
+    return 0
     
     
-knnSelect()
+#knnSelect(8)
 #knnMake()
 #make_clusters()
-#from gluon.scheduler import Scheduler
-#scheduler = Scheduler(db)
-#scheduler.queue_task(make_clusters, repeats=0, start_time=datetime.datetime.now(), period=86400)
+from gluon.scheduler import Scheduler
+scheduler = Scheduler(db)
+scheduler.queue_task(make_clusters, repeats=0, start_time=datetime.datetime.now(), period=86400)
