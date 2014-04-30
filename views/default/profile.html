@@ -43,7 +43,7 @@
         top:70px;
         font-size:large;
         font-weight:bold;
-        content:"{{=(name)}}";
+        content:"{{=name}}";
     }
    
     #content{
@@ -71,7 +71,23 @@
 	        <li><a href="#edit" data-toggle="tab">Edit</a></li>
     	</ul>
 		    <div id="my-tab-content" class="tab-content">
-	        <div class="tab-pane active" id="posts">Posts</div>
+	        <div class="tab-pane active" id="posts">
+                {{posts = db(db.user_post.posted_by_user==auth.user_id).select()}}
+	          {{print "iterating posts"}}
+                {{for post in posts:}}
+                    {{print post}}
+                    <div class="post">
+                        {{if post.liked_by_user:}}
+                        {{=len(post.liked_by_user)}}
+                        {{else: }}
+                        {{='0'}}
+						{{pass}}
+						<span style="font-size:medium;">{{=post.description}}</span>
+                        <br>
+                    <a href="{{=post.url}}">{{=post.url}} </a> 
+				    </div><!--End of class post-->
+					   {{pass}}
+	        </div>
                 <div class="tab-pane" id="edit">
 {{
 if request.args(0)=='login':

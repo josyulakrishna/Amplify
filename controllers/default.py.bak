@@ -37,7 +37,7 @@ def userprofile():
      if name=="":
          name = user['username']
      posts = db(db.user_post.posted_by_user==user).select()
-     print posts
+#     print posts
      return locals()
 
 def news():
