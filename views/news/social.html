@@ -62,6 +62,10 @@
 		  box-shadow: 0 3px 2px rgba(0, 0, 0, 0.3);  
 	      z-index: 10000;
 	}
+    .post{
+        
+        
+    }
 </style>
 
 <script>
@@ -102,27 +106,21 @@
                context: this,
                url:'like',
                data : {'userid':{{=auth.user_id}}, 'id':id },
-				dataType: "json"
+			   dataType: "json"
             }).done(function(response){
-               alert(response);
                response  = $.parseJSON(response)
                if( response.like == "like"){
-               alert("in if");
-	            var vote = parseInt($("#votes").text(), 10);
-			    vote = vote+1;
-				alert($(this).closest('span').html());	            
+	            var vote = parseInt($("."+id).text(), 10);
+			    vote = vote+1;           
 	            $(this).text("Unlike");
-                alert("done");
+                $("."+id).text(vote);
+
                 }
                else{
-               alert("In else");
 				var vote = parseInt($("#votes").text(), 10);
 			    vote = vote-1;
-		    	$("#votes").text(vote);
-	            alert($(this).parent().text());	            
-	            alert($(this).parent().html());	            	            
+		    	$("."+id).text(vote);                       	            
 	            $(this).text("Like");
-                alert("done");
                }
             });
 
@@ -182,15 +180,16 @@
 {{if newsbar_enabled:}}
 {{block newbar:}}
     <div class="row-fluid ">
-            		<div class = "span12 posts">
+        <hr style="color:green">
+        <div class = "span12 posts" style="border-top:3px,meduim,green;">
             		<h1 class="lead">Thoughts for you</h1>
                         {{for key in posts.keys(): }}
                         	{{for post in posts[key]: }}
                         <div class="{{=post[3]}}" >
                         <span class="circle" style='background-image:url({{=Gravatar(key[1]).thumb}})'
                          onclick="location.href='{{=URL(c="default", f="userprofile", args=[key[2]])}}'" ></span> 
-		<p><span style="padding-right:10px"><strong id="votes">{{=len(post[2]) if post[2] else 0}}</strong></span> {{=post[0]}}</p>                      <a href="{{=post[1]}}">{{=post[1]}}</a> 
-                            <button class = "btn btn-inverse like" style="margin-left:20px" postid="{{=post[4]}}">Like</button>
+		<p><span style="padding-right:10px"><strong id="votes" class="{{=post[4]}}" >{{=len(post[2]) if post[2] else 0}}</strong></span> {{=post[0]}}</p>                      <a href="{{=post[1]}}">{{=post[1]}}</a> 
+                            <button class = "btn btn-inverse like" style="margin-left:20px" postid="{{=post[4]}}">{{= "Unlike" if auth.user_id in post[2] else "Like"}}</button>
 		                 </div>
                         	{{pass}}
                         {{pass}}
