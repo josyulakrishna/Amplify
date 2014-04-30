@@ -8,7 +8,7 @@
 ## - download is for downloading files uploaded in the db (does streaming)
 ## - call exposes all registered services (none by default)
 #########################################################################
-
+import datetime
 def index():
     """
     example action using the internationalization operator T and flash
@@ -29,14 +29,16 @@ def index():
         name  = "Guest"
     return locals()
 
+@auth.requires_login()
 def userprofile():
-     print "userprofile"
-     user = db.auth_user(username=request.args(0)) or redirect(URL('error'))
+     print "userprofile", datetime.datetime.now()
+     user = db.auth_user(db.auth_user.username==request.args(0)) or redirect(URL('error'))
+     print user
      print "getting username"
      name=user.first_name+" "+user.last_name
      if name=="":
          name = user['username']
-     posts = db(db.user_post.posted_by_user==user).select()
+     posts = db(db.user_post.posted_by_user == user).select()
 #     print posts
      return locals()
 

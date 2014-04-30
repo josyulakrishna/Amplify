@@ -54,9 +54,6 @@
 <style>
 body{
          padding:100px;
-        background-image:url("{{=URL('static','/img/subway-lines.png')}}")
-         
-         
      }
 </style>
 <div class="navbar navbar-fixed-top" >
