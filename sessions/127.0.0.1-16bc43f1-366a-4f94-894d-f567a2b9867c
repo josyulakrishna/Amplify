@@ -17,7 +17,7 @@ p7
 (dp8
 S'hmac_key'
 p9
-S'f55b7d00-c61b-4779-ac96-ab46f455673d'
+S'b883928c-7336-4f24-b948-563ad27c6d4d'
 p10
 sS'remember'
 p11
@@ -27,7 +27,7 @@ p12
 cdatetime
 datetime
 p13
-(S'\x07\xde\x05\x03\x0b2\x02\x02\x08X'
+(S'\x07\xde\x05\x03\x0c\x172\x05\xfa\x00'
 tRp14
 sS'user'
 p15
@@ -80,10 +80,10 @@ I3600
 stRp36
 sS'_session_hash'
 p37
-S'f88478c5948e074d7bd7f77cf0b59cf4'
+S'ab6da2aff50d1715c2588805afa8b639'
 p38
 sS'_formkey[login]'
 p39
-S'81215bb2-55f1-4af2-928f-8548ec3efa46'
+S'843fe836-ac47-4125-86ef-186b45d985e4'
 p40
 s.

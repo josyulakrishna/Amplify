@@ -1,0 +1,854 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.AttributeError'> 'Rows' object has no attribute 'update'"
+p3
+sS'layer'
+p4
+S'/Users/josyulakrishna/Documents/web2py_src/web2py/applications/Amplify/models/db.py'
+p5
+sS'code'
+p6
+S'# -*- coding: utf-8 -*-\nfrom __future__ import print_function\nimport datetime, random, feedparser\nfrom collections import defaultdict\nimport httplib, urllib, json\nfrom bs4 import BeautifulSoup\nimport html5lib\nfrom html5lib import sanitizer\nfrom html5lib import treebuilders\nimport numpy as np\nfrom sklearn.cluster import KMeans\nfrom sklearn.preprocessing import scale\nimport json\n\ngravatar = local_import("gravatar")\nGravatar = gravatar.Gravatar\n\ndb = DAL(\'sqlite://storage.sqlite\',pool_size=1,check_reserved=[\'all\'])\nresponse.generic_patterns = [\'*\'] if request.is_local else []\nfrom gluon.tools import Auth, Crud, Service, PluginManager, prettydate\nauth = Auth(db)\ncrud, service, plugins = Crud(db), Service(), PluginManager()\nauth.define_tables(username=True, signature=False)\nauth.define_tables(username=True)\nauth.settings.registration_requires_verification = False\nauth.settings.registration_requires_approval = False\nauth.settings.reset_password_requires_verification = False\nauth.settings.register_next = URL(c=\'default\',f=\'interests\')\nauth.settings.login_next = URL(c=\'news\',f=\'social\') \n\n## if you need to use OpenID, Facebook, MySpace, Twitter, Linkedin, etc.\n## register with janrain.com, write your domain:api_key in private/janrain.key\n#from gluon.contrib.login_methods.rpx_account import use_janrain\n#use_janrain(auth, filename=\'private/janrain.key\')\n\n#########################################################################\n## Define your tables below (or better in another model file) for example\n##\n## >>> db.define_table(\'mytable\',Field(\'myfield\',\'string\'))\n##\n## Fields can be \'string\',\'text\',\'password\',\'integer\',\'double\',\'boolean\'\n##       \'date\',\'time\',\'datetime\',\'blob\',\'upload\', \'reference TABLENAME\'\n## There is an implicit \'id integer autoincrement\' field\n## Consult manual for more options, validators, etc.\n##\n## More API examples for controllers:\n##\n## >>> db.mytable.insert(myfield=\'value\')\n## >>> rows=db(db.mytable.myfield==\'value\').select(db.mytable.ALL)\n## >>> for row in rows: print row.id, row.myfield\n#########################################################################\n\n## after defining tables, uncomment below to enable auditing\n# auth.enable_record_versioning(db)\n\ndb.define_table(\'user_interests\', Field(\'user_id\',db.auth_user), Field("Science",\'boolean\'),Field("Arts",\'boolean\'), Field("BusinessEconomy",\'boolean\'), Field("ComputersTechnology",\'boolean\'), Field("Health",\'boolean\'), Field("HomeDomesticLife",\'boolean\'), Field("News",\'boolean\'), Field("RecreationActivities",\'boolean\'), Field("ReferenceEducation",\'boolean\'), Field("Shopping",\'boolean\'), Field("Society",\'boolean\'), Field("Sports",\'boolean\') )\n\n#db.define_table(\'user_likes\', Field(\'user_id\',db.auth_user), Field("Science",\'integer\'),Field("Arts",\'integer\'), Field("BusinessEconomy",\'integer\'), Field("ComputersTechnology",\'integer\'), Field("Health",\'integer\'), Field("HomeDomesticLife",\'integer\'), Field("News",\'integer\'), Field("RecreationActivities",\'integer\'), Field("ReferenceEducation",\'integer\'), Field("Shopping",\'integer\'), Field("Society",\'integer\'), Field("Sports",\'integer\') )\n\ndb.define_table(\'user_post\', Field(\'posted_by_user\', db.auth_user), Field(\'liked_by_user\',\'list:integer\'), Field(\'topic\'), Field(\'url\'), Field(\'description\'))\n\n#db.define_table( \'model_posts\', Field(\'link\'), Field(\'description\'), Field(\'topic\') )\n\ndb.define_table(\'user_clusters\', Field(\'user_id\',db.auth_user),Field(\'cluster_id\'))\n\ndb.define_table(\'knnRef\', Field(\'cluster_id\'),Field("Science",\'double\'),Field("Arts",\'double\'), Field("BusinessEconomy",\'double\'), Field("ComputersTechnology",\'double\'), Field("Health",\'double\'), Field("HomeDomesticLife",\'double\'), Field("News",\'double\'), Field("RecreationActivities",\'double\'), Field("ReferenceEducation",\'double\'), Field("Shopping",\'double\'), Field("Society",\'double\'), Field("Sports",\'double\')) \n\ntotal = len(db(db.auth_user.id>0).select())\n\n#print(total)\n#db.user_interests._after_insert.append(make_clusters)\n#db.user_interests._after_update.append(make_clusters)\nrows = db(db.user_post.topic=="ComputersTechonology").select()\nrows.update(db.user_post.topic=="ComputersTechnology")\n\nallCategories = [\'Science\', \'Arts\', \'Bussiness and Economy\', \'Computers and Technology\', \'Health\', \'Home and Domestic Life\', \'News\',\'Recreation Activities\', \'Reference Education\', \'Shopping\', \'Society\', \'Sports\']\n'
+p7
+sS'snapshot'
+p8
+(dp9
+S'exception'
+p10
+(dp11
+S'__hash__'
+p12
+S"<method-wrapper '__hash__' of exceptions.AttributeError object>"
+p13
+sS'__setattr__'
+p14
+S"<method-wrapper '__setattr__' of exceptions.AttributeError object>"
+p15
+sS'__reduce_ex__'
+p16
+S'<built-in method __reduce_ex__ of exceptions.AttributeError object>'
+p17
+sS'__getslice__'
+p18
+S"<method-wrapper '__getslice__' of exceptions.AttributeError object>"
+p19
+sS'__getitem__'
+p20
+S"<method-wrapper '__getitem__' of exceptions.AttributeError object>"
+p21
+sS'__setstate__'
+p22
+S'<built-in method __setstate__ of exceptions.AttributeError object>'
+p23
+sS'args'
+p24
+S'("\'Rows\' object has no attribute \'update\'",)'
+p25
+sS'__reduce__'
+p26
+S'<built-in method __reduce__ of exceptions.AttributeError object>'
+p27
+sS'__str__'
+p28
+S"<method-wrapper '__str__' of exceptions.AttributeError object>"
+p29
+sS'__format__'
+p30
+S'<built-in method __format__ of exceptions.AttributeError object>'
+p31
+sS'__getattribute__'
+p32
+S"<method-wrapper '__getattribute__' of exceptions.AttributeError object>"
+p33
+sS'__class__'
+p34
+S"<type 'exceptions.AttributeError'>"
+p35
+sS'__unicode__'
+p36
+S'<built-in method __unicode__ of exceptions.AttributeError object>'
+p37
+sS'__delattr__'
+p38
+S"<method-wrapper '__delattr__' of exceptions.AttributeError object>"
+p39
+sS'__subclasshook__'
+p40
+S'<built-in method __subclasshook__ of type object>'
+p41
+sS'__repr__'
+p42
+S"<method-wrapper '__repr__' of exceptions.AttributeError object>"
+p43
+sS'__dict__'
+p44
+S'{}'
+p45
+sS'__sizeof__'
+p46
+S'<built-in method __sizeof__ of exceptions.AttributeError object>'
+p47
+sS'__doc__'
+p48
+S"'Attribute not found.'"
+p49
+sS'__init__'
+p50
+S"<method-wrapper '__init__' of exceptions.AttributeError object>"
+p51
+sS'__new__'
+p52
+S'<built-in method __new__ of type object>'
+p53
+ssS'evalue'
+p54
+S"'Rows' object has no attribute 'update'"
+p55
+sS'request'
+p56
+cgluon.html
+XML_unpickle
+p57
+(S's\xe5s\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top">ajax</td><td valign="top">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">application</td><td valign="top">:</td><td><div>Amplify</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">args</td><td valign="top">:</td><td><div><table><tr><td><div>db</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">body</td><td valign="top">:</td><td><div>&lt;open file &#x27;&lt;fdopen&gt;&#x27;, mode &#x27;w+b&#x27; at 0x10bc78270&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">cid</td><td valign="top">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">client</td><td valign="top">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">controller</td><td valign="top">:</td><td><div>appadmin</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">cookies</td><td valign="top">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top">session_id_admin</td><td valign="top">:</td><td><div>127.0.0.1-7db7eefc-9f83-40e3-8599-b6f9393cf31d<table><tr><td style="font-weight:bold;vertical-align:top">comment</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">domain</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">expires</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">httponly</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">max-age</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">path</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">secure</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">version</td><td valign="top">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">session_id_amplify</td><td valign="top">:</td><td><div>127.0.0.1-6dbe842e-d6c9-4345-851e-5914f55a0026<table><tr><td style="font-weight:bold;vertical-align:top">comment</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">domain</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">expires</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">httponly</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">max-age</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">path</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">secure</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">version</td><td valign="top">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">session_id_amplifyprototype</td><td valign="top">:</td><td><div>127.0.0.1-15740f78-a69b-423c-8f9a-98136689fda4<table><tr><td style="font-weight:bold;vertical-align:top">comment</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">domain</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">expires</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">httponly</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">max-age</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">path</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">secure</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">version</td><td valign="top">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">session_id_facebookclone</td><td valign="top">:</td><td><div>127.0.0.1-11c060a6-b0dd-41b0-b301-dfd7cc431b50<table><tr><td style="font-weight:bold;vertical-align:top">comment</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">domain</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">expires</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">httponly</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">max-age</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">path</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">secure</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">version</td><td valign="top">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">session_id_taskscheduler</td><td valign="top">:</td><td><div>127.0.0.1-4244ae84-7294-4b20-bc0c-3050812c06f6<table><tr><td style="font-weight:bold;vertical-align:top">comment</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">domain</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">expires</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">httponly</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">max-age</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">path</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">secure</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">version</td><td valign="top">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">session_id_tryfacebookapi</td><td valign="top">:</td><td><div>127.0.0.1-83db9b5d-75e2-4537-8552-73abfada2711<table><tr><td style="font-weight:bold;vertical-align:top">comment</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">domain</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">expires</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">httponly</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">max-age</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">path</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">secure</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">version</td><td valign="top">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">session_id_welcome</td><td valign="top">:</td><td><div>127.0.0.1-c2214d19-5b00-46c5-85d5-f8a0f736ae3d<table><tr><td style="font-weight:bold;vertical-align:top">comment</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">domain</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">expires</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">httponly</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">max-age</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">path</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">secure</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">version</td><td valign="top">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">env</td><td valign="top">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top">app_folders</td><td valign="top">:</td><td><div>set([&#x27;/Users/josyulakrishna/Documents/web2py_src/web2py/applications/welcome/&#x27;, &#x27;/Users/josyulakrishna/Documents/web2py_src/web2py/applications/admin/&#x27;, &#x27;/Users/josyulakrishna/Documents/web2py_src/web2py/applications/Amplify/&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">applications_parent</td><td valign="top">:</td><td><div>/Users/josyulakrishna/Documents/web2py_src/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">cmd_args</td><td valign="top">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">cmd_options</td><td valign="top">:</td><td><div>&lt;Values at 0x103ad9b90: {&#x27;verbose&#x27;: False, &#x27;ip&#x27;: &#x27;127.0.0.1&#x27;, &#x27;with_scheduler&#x27;: False, &#x27;ips&#x27;: [&#x27;192.168.12.49&#x27;, &#x27;fe80::5ef9:38ff:fe8c:8472%en0&#x27;], &#x27;shutdown_timeout&#x27;: 5, &#x27;taskbar&#x27;: False, &#x27;with_coverage&#x27;: False, &#x27;port&#x27;: 8000, &#x27;maxthreads&#x27;: None, &#x27;softcron&#x27;: False, &#x27;server_name&#x27;: &#x27;Josyulas-MacBook-Air.local&#x27;, &#x27;bpython&#x27;: False, &#x27;nogui&#x27;: False, &#x27;pid_filename&#x27;: &#x27;httpserver.pid&#x27;, &#x27;extcron&#x27;: False, &#x27;runcron&#x27;: False, &#x27;run_system_tests&#x27;: False, &#x27;test&#x27;: None, &#x27;folder&#x27;: &#x27;/Users/josyulakrishna/Documents/web2py_src/web2py&#x27;, &#x27;config&#x27;: &#x27;&#x27;, &#x27;minthreads&#x27;: None, &#x27;winservice&#x27;: &#x27;&#x27;, &#x27;shell&#x27;: None, &#x27;run&#x27;: &#x27;&#x27;, &#x27;log_filename&#x27;: &#x27;httpserver.log&#x27;, &#x27;debuglevel&#x27;: 30, &#x27;args&#x27;: [&#x27;&#x27;], &#x27;socket_timeout&#x27;: 5, &#x27;ssl_ca_certificate&#x27;: None, &#x27;scheduler&#x27;: None, &#x27;profiler_filename&#x27;: None, &#x27;ssl_private_key&#x27;: &#x27;&#x27;, &#x27;scheduler_groups&#x27;: None, &#x27;password&#x27;: &#x27;&lt;ask&gt;&#x27;, &#x27;request_queue_size&#x27;: 5, &#x27;ssl_certificate&#x27;: &#x27;&#x27;, &#x27;cronjob&#x27;: False, &#x27;numthreads&#x27;: None, &#x27;quiet&#x27;: False, &#x27;interfaces&#x27;: None, &#x27;import_models&#x27;: False, &#x27;timeout&#x27;: 10, &#x27;plain&#x27;: False, &#x27;nobanner&#x27;: False}&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">content_length</td><td valign="top">:</td><td><div>278</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">content_type</td><td valign="top">:</td><td><div>multipart/form-data; boundary=----WebKitFormBoundaryubYwnT2ikOr3ZIAD</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">db_sessions</td><td valign="top">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">debugging</td><td valign="top">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">gluon_parent</td><td valign="top">:</td><td><div>/Users/josyulakrishna/Documents/web2py_src/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">http_accept</td><td valign="top">:</td><td><div>text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">http_accept_encoding</td><td valign="top">:</td><td><div>gzip,deflate,sdch</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">http_accept_language</td><td valign="top">:</td><td><div>en-US,en;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">http_cache_control</td><td valign="top">:</td><td><div>max-age=0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">http_connection</td><td valign="top">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">http_content_length</td><td valign="top">:</td><td><div>278</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">http_content_type</td><td valign="top">:</td><td><div>multipart/form-data; boundary=----WebKitFormBoundaryubYwnT2ikOr3ZIAD</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">http_cookie</td><td valign="top">:</td><td><div>session_id_facebookclone=127.0.0.1-11c060a6-b0dd-41b0-b301-dfd7cc431b50; session_id_tryfacebookapi=127.0.0.1-83db9b5d-75e2-4537-8552-73abfada2711; session_id_taskscheduler=127.0.0.1-4244ae84-7294-4b20-bc0c-3050812c06f6; session_id_amplifyprototype=127.0.0.1-15740f78-a69b-423c-8f9a-98136689fda4; session_id_welcome=127.0.0.1-c2214d19-5b00-46c5-85d5-f8a0f736ae3d; session_id_amplify=127.0.0.1-6dbe842e-d6c9-4345-851e-5914f55a0026; session_id_admin=127.0.0.1-7db7eefc-9f83-40e3-8599-b6f9393cf31d</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">http_host</td><td valign="top">:</td><td><div>127.0.0.1:8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">http_origin</td><td valign="top">:</td><td><div>http://127.0.0.1:8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">http_referer</td><td valign="top">:</td><td><div>http://127.0.0.1:8000/Amplify/appadmin/select/db?orderby=user_post.topic</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">http_user_agent</td><td valign="top">:</td><td><div>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.131 Safari/537.36</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">is_jython</td><td valign="top">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">is_pypy</td><td valign="top">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">local_hosts</td><td valign="top">:</td><td><div><table><tr><td><div>Josyulas-MacBook-Air.local</div></td></tr><tr><td><div>192.168.12.49</div></td></tr><tr><td><div>::ffff:127.0.0.1</div></td></tr><tr><td><div>::1</div></td></tr><tr><td><div>fe80::5ef9:38ff:fe8c:8472%en0</div></td></tr><tr><td><div>127.0.0.1</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">path_info</td><td valign="top">:</td><td><div>/Amplify/appadmin/select/db</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">query_string</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">remote_addr</td><td valign="top">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">remote_port</td><td valign="top">:</td><td><div>54761</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">request_method</td><td valign="top">:</td><td><div>POST</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">request_uri</td><td valign="top">:</td><td><div>/Amplify/appadmin/select/db</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">script_name</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">server_name</td><td valign="top">:</td><td><div>Josyulas-MacBook-Air.local</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">server_port</td><td valign="top">:</td><td><div>8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">server_protocol</td><td valign="top">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">server_software</td><td valign="top">:</td><td><div>Rocket 1.2.6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">web2py_path</td><td valign="top">:</td><td><div>/Users/josyulakrishna/Documents/web2py_src/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">web2py_version</td><td valign="top">:</td><td><div>2.5.1-stable+timestamp.2013.06.06.15.39.19</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">wsgi_errors</td><td valign="top">:</td><td><div>&lt;open file &#x27;&lt;stderr&gt;&#x27;, mode &#x27;w&#x27; at 0x10028e1e0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">wsgi_file_wrapper</td><td valign="top">:</td><td><div>&lt;class wsgiref.util.FileWrapper at 0x10369f4c8&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">wsgi_input</td><td valign="top">:</td><td><div>&lt;socket._fileobject object at 0x10bc83bd0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">wsgi_multiprocess</td><td valign="top">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">wsgi_multithread</td><td valign="top">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">wsgi_run_once</td><td valign="top">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">wsgi_url_scheme</td><td valign="top">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">wsgi_version</td><td valign="top">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">extension</td><td valign="top">:</td><td><div>html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">folder</td><td valign="top">:</td><td><div>/Users/josyulakrishna/Documents/web2py_src/web2py/applications/Amplify/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">function</td><td valign="top">:</td><td><div>select</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">get_vars</td><td valign="top">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">global_settings</td><td valign="top">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top">app_folders</td><td valign="top">:</td><td><div>set([&#x27;/Users/josyulakrishna/Documents/web2py_src/web2py/applications/welcome/&#x27;, &#x27;/Users/josyulakrishna/Documents/web2py_src/web2py/applications/admin/&#x27;, &#x27;/Users/josyulakrishna/Documents/web2py_src/web2py/applications/Amplify/&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">applications_parent</td><td valign="top">:</td><td><div>/Users/josyulakrishna/Documents/web2py_src/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">cmd_args</td><td valign="top">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">cmd_options</td><td valign="top">:</td><td><div>&lt;Values at 0x103ad9b90: {&#x27;verbose&#x27;: False, &#x27;ip&#x27;: &#x27;127.0.0.1&#x27;, &#x27;with_scheduler&#x27;: False, &#x27;ips&#x27;: [&#x27;192.168.12.49&#x27;, &#x27;fe80::5ef9:38ff:fe8c:8472%en0&#x27;], &#x27;shutdown_timeout&#x27;: 5, &#x27;taskbar&#x27;: False, &#x27;with_coverage&#x27;: False, &#x27;port&#x27;: 8000, &#x27;maxthreads&#x27;: None, &#x27;softcron&#x27;: False, &#x27;server_name&#x27;: &#x27;Josyulas-MacBook-Air.local&#x27;, &#x27;bpython&#x27;: False, &#x27;nogui&#x27;: False, &#x27;pid_filename&#x27;: &#x27;httpserver.pid&#x27;, &#x27;extcron&#x27;: False, &#x27;runcron&#x27;: False, &#x27;run_system_tests&#x27;: False, &#x27;test&#x27;: None, &#x27;folder&#x27;: &#x27;/Users/josyulakrishna/Documents/web2py_src/web2py&#x27;, &#x27;config&#x27;: &#x27;&#x27;, &#x27;minthreads&#x27;: None, &#x27;winservice&#x27;: &#x27;&#x27;, &#x27;shell&#x27;: None, &#x27;run&#x27;: &#x27;&#x27;, &#x27;log_filename&#x27;: &#x27;httpserver.log&#x27;, &#x27;debuglevel&#x27;: 30, &#x27;args&#x27;: [&#x27;&#x27;], &#x27;socket_timeout&#x27;: 5, &#x27;ssl_ca_certificate&#x27;: None, &#x27;scheduler&#x27;: None, &#x27;profiler_filename&#x27;: None, &#x27;ssl_private_key&#x27;: &#x27;&#x27;, &#x27;scheduler_groups&#x27;: None, &#x27;password&#x27;: &#x27;&lt;ask&gt;&#x27;, &#x27;request_queue_size&#x27;: 5, &#x27;ssl_certificate&#x27;: &#x27;&#x27;, &#x27;cronjob&#x27;: False, &#x27;numthreads&#x27;: None, &#x27;quiet&#x27;: False, &#x27;interfaces&#x27;: None, &#x27;import_models&#x27;: False, &#x27;timeout&#x27;: 10, &#x27;plain&#x27;: False, &#x27;nobanner&#x27;: False}&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">db_sessions</td><td valign="top">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">debugging</td><td valign="top">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">gluon_parent</td><td valign="top">:</td><td><div>/Users/josyulakrishna/Documents/web2py_src/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">is_jython</td><td valign="top">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">is_pypy</td><td valign="top">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">local_hosts</td><td valign="top">:</td><td><div><table><tr><td><div>Josyulas-MacBook-Air.local</div></td></tr><tr><td><div>192.168.12.49</div></td></tr><tr><td><div>::ffff:127.0.0.1</div></td></tr><tr><td><div>::1</div></td></tr><tr><td><div>fe80::5ef9:38ff:fe8c:8472%en0</div></td></tr><tr><td><div>127.0.0.1</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">web2py_version</td><td valign="top">:</td><td><div>2.5.1-stable+timestamp.2013.06.06.15.39.19</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">is_https</td><td valign="top">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">is_local</td><td valign="top">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">is_restful</td><td valign="top">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">now</td><td valign="top">:</td><td><div>datetime.datetime(2014, 5, 3, 12, 17, 4, 344346)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">post_vars</td><td valign="top">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top">query</td><td valign="top">:</td><td><div>db.user_post.topic==&quot;ComputersTechonology&quot;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">update_fields</td><td valign="top">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">raw_args</td><td valign="top">:</td><td><div>db</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">raw_extension</td><td valign="top">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">url</td><td valign="top">:</td><td><div>/Amplify/appadmin/select/db</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">utcnow</td><td valign="top">:</td><td><div>datetime.datetime(2014, 5, 3, 6, 47, 4, 344355)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">uuid</td><td valign="top">:</td><td><div>Amplify/127.0.0.1.2014-05-03.12-17-04.ad5fd09f-980d-40f5-a0df-ce11cd889865</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">vars</td><td valign="top">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top">query</td><td valign="top">:</td><td><div>db.user_post.topic==&quot;ComputersTechonology&quot;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">update_fields</td><td valign="top">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">wsgi</td><td valign="top">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top">environ</td><td valign="top">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top">CONTENT_LENGTH</td><td valign="top">:</td><td><div>278</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">CONTENT_TYPE</td><td valign="top">:</td><td><div>multipart/form-data; boundary=----WebKitFormBoundaryubYwnT2ikOr3ZIAD</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">HTTP_ACCEPT</td><td valign="top">:</td><td><div>text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">HTTP_ACCEPT_ENCODING</td><td valign="top">:</td><td><div>gzip,deflate,sdch</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">HTTP_ACCEPT_LANGUAGE</td><td valign="top">:</td><td><div>en-US,en;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">HTTP_CACHE_CONTROL</td><td valign="top">:</td><td><div>max-age=0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">HTTP_CONNECTION</td><td valign="top">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">HTTP_CONTENT_LENGTH</td><td valign="top">:</td><td><div>278</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">HTTP_CONTENT_TYPE</td><td valign="top">:</td><td><div>multipart/form-data; boundary=----WebKitFormBoundaryubYwnT2ikOr3ZIAD</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">HTTP_COOKIE</td><td valign="top">:</td><td><div>session_id_facebookclone=127.0.0.1-11c060a6-b0dd-41b0-b301-dfd7cc431b50; session_id_tryfacebookapi=127.0.0.1-83db9b5d-75e2-4537-8552-73abfada2711; session_id_taskscheduler=127.0.0.1-4244ae84-7294-4b20-bc0c-3050812c06f6; session_id_amplifyprototype=127.0.0.1-15740f78-a69b-423c-8f9a-98136689fda4; session_id_welcome=127.0.0.1-c2214d19-5b00-46c5-85d5-f8a0f736ae3d; session_id_amplify=127.0.0.1-6dbe842e-d6c9-4345-851e-5914f55a0026; session_id_admin=127.0.0.1-7db7eefc-9f83-40e3-8599-b6f9393cf31d</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">HTTP_HOST</td><td valign="top">:</td><td><div>127.0.0.1:8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">HTTP_ORIGIN</td><td valign="top">:</td><td><div>http://127.0.0.1:8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">HTTP_REFERER</td><td valign="top">:</td><td><div>http://127.0.0.1:8000/Amplify/appadmin/select/db?orderby=user_post.topic</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">HTTP_USER_AGENT</td><td valign="top">:</td><td><div>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.131 Safari/537.36</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">PATH_INFO</td><td valign="top">:</td><td><div>/Amplify/appadmin/select/db</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">QUERY_STRING</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">REMOTE_ADDR</td><td valign="top">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">REMOTE_PORT</td><td valign="top">:</td><td><div>54761</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">REQUEST_METHOD</td><td valign="top">:</td><td><div>POST</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">REQUEST_URI</td><td valign="top">:</td><td><div>/Amplify/appadmin/select/db</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">SCRIPT_NAME</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">SERVER_NAME</td><td valign="top">:</td><td><div>Josyulas-MacBook-Air.local</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">SERVER_PORT</td><td valign="top">:</td><td><div>8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">SERVER_PROTOCOL</td><td valign="top">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">SERVER_SOFTWARE</td><td valign="top">:</td><td><div>Rocket 1.2.6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">wsgi.errors</td><td valign="top">:</td><td><div>&lt;open file &#x27;&lt;stderr&gt;&#x27;, mode &#x27;w&#x27; at 0x10028e1e0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">wsgi.file_wrapper</td><td valign="top">:</td><td><div>&lt;class wsgiref.util.FileWrapper at 0x10369f4c8&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">wsgi.input</td><td valign="top">:</td><td><div>&lt;open file &#x27;&lt;fdopen&gt;&#x27;, mode &#x27;w+b&#x27; at 0x10bc78270&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">wsgi.multiprocess</td><td valign="top">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">wsgi.multithread</td><td valign="top">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">wsgi.run_once</td><td valign="top">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">wsgi.url_scheme</td><td valign="top">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">wsgi.version</td><td valign="top">:</td><td><div>1</div></td></tr></table></div></td></tr></table></div></td></tr></table></div>'
+tRp58
+sS'frames'
+p59
+(lp60
+(dp61
+S'file'
+p62
+S'/Users/josyulakrishna/Documents/web2py_src/web2py/gluon/restricted.py'
+p63
+sS'dump'
+p64
+(dp65
+S'environment'
+p66
+S"{'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'Auth': <class 'gluon.tools.Auth'>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, 'BeautifulSoup': <class 'bs4.BeautifulSoup'>, 'CAT': <class 'gluon.html.CAT'>, ...}"
+p67
+sS'ccode'
+p68
+S'<code object <module> at 0x10bc81bb0, file "/Use...eb2py/applications/Amplify/models/db.py", line 2>'
+p69
+ssS'lnum'
+p70
+I212
+sS'lines'
+p71
+(dp72
+I207
+S'    try:'
+p73
+sI208
+S'        if isinstance(code, types.CodeType):'
+p74
+sI209
+S'            ccode = code'
+p75
+sI210
+S'        else:'
+p76
+sI211
+S'            ccode = compile2(code, layer)'
+p77
+sI212
+S'        exec ccode in environment'
+p78
+sI213
+S'    except HTTP:'
+p79
+sI214
+S'        raise'
+p80
+sI215
+S'    except RestrictedError:'
+p81
+sI216
+S'        # do not encapsulate (obfuscate) the original RestrictedError'
+p82
+ssS'call'
+p83
+S'(code="# -*- coding: utf-8 -*-\\nfrom __future__ import p...nce Education\', \'Shopping\', \'Society\', \'Sports\']\\n", environment={\'A\': <class \'gluon.html.A\'>, \'ANY_OF\': <class \'gluon.validators.ANY_OF\'>, \'Auth\': <class \'gluon.tools.Auth\'>, \'B\': <class \'gluon.html.B\'>, \'BEAUTIFY\': <class \'gluon.html.BEAUTIFY\'>, \'BODY\': <class \'gluon.html.BODY\'>, \'BR\': <class \'gluon.html.BR\'>, \'BUTTON\': <class \'gluon.html.BUTTON\'>, \'BeautifulSoup\': <class \'bs4.BeautifulSoup\'>, \'CAT\': <class \'gluon.html.CAT\'>, ...}, layer=\'/Users/josyulakrishna/Documents/web2py_src/web2py/applications/Amplify/models/db.py\')'
+p84
+sS'func'
+p85
+S'restricted'
+p86
+sa(dp87
+g62
+S'/Users/josyulakrishna/Documents/web2py_src/web2py/applications/Amplify/models/db.py'
+p88
+sg64
+(dp89
+S'db.user_post.topic'
+p90
+S'<gluon.dal.Field object>'
+p91
+sS'db.user_post'
+p92
+S'<Table user_post (id,posted_by_user,liked_by_user,topic,url,description)>'
+p93
+sS'rows'
+p94
+S'<Rows (3)>'
+p95
+sS'db'
+p96
+S'<DAL uri="sqlite://storage.sqlite">'
+p97
+sS'rows.update'
+p98
+S'undefined'
+p99
+ssg70
+I74
+sg71
+(dp100
+I67
+S''
+sI68
+S'total = len(db(db.auth_user.id>0).select())'
+p101
+sI69
+S''
+sI70
+S'#print(total)'
+p102
+sI71
+S'#db.user_interests._after_insert.append(make_clusters)'
+p103
+sI72
+S'#db.user_interests._after_update.append(make_clusters)'
+p104
+sI73
+S'rows = db(db.user_post.topic=="ComputersTechonology").select()'
+p105
+sI74
+S'rows.update(db.user_post.topic=="ComputersTechnology")'
+p106
+sI75
+S''
+sI76
+S"allCategories = ['Science', 'Arts', 'Bussiness and Economy', 'Computers and Technology', 'Health', 'Home and Domestic Life', 'News','Recreation Activities', 'Reference Education', 'Shopping', 'Society', 'Sports']"
+p107
+ssg83
+S'()'
+p108
+sg85
+S'<module>'
+p109
+sasS'pyver'
+p110
+S'Python 2.7.5: /Users/josyulakrishna/Documents/PythonPackages/anaconda/bin/python (prefix: /Users/josyulakrishna/Documents/PythonPackages/anaconda)'
+p111
+sS'session'
+p112
+g57
+(S'so\t\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top">auth</td><td valign="top">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top">expiration</td><td valign="top">:</td><td><div>2592000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">hmac_key</td><td valign="top">:</td><td><div>490dcf78-8508-4baf-8241-2115aa7721a2</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">last_visit</td><td valign="top">:</td><td><div>datetime.datetime(2014, 5, 3, 11, 26, 26, 995806)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">remember</td><td valign="top">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">user</td><td valign="top">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top">email</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">first_name</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">id</td><td valign="top">:</td><td><div>6L</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">last_name</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">registration_id</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">registration_key</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">reset_password_key</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">username</td><td valign="top">:</td><td><div>test2</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">user_groups</td><td valign="top">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top">6</td><td valign="top">:</td><td><div>user_6</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">flash</td><td valign="top">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">last_orderby</td><td valign="top">:</td><td><div>db.user_post.topic</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">last_query</td><td valign="top">:</td><td><div>db.user_post.topic==&quot;ComputersTechonology&quot;</div></td></tr></table></div>'
+tRp113
+sS'etype'
+p114
+S"<type 'exceptions.AttributeError'>"
+p115
+sS'date'
+p116
+S'Sat May  3 12:17:04 2014'
+p117
+sS'response'
+p118
+g57
+(S's\x1b\x12\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top">body</td><td valign="top">:</td><td><div>&lt;cStringIO.StringO object at 0x10afcc7a0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">cookies</td><td valign="top">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top">session_id_amplify</td><td valign="top">:</td><td><div>127.0.0.1-6dbe842e-d6c9-4345-851e-5914f55a0026<table><tr><td style="font-weight:bold;vertical-align:top">comment</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">domain</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">expires</td><td valign="top">:</td><td><div>2592000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">httponly</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">max-age</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">path</td><td valign="top">:</td><td><div>/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">secure</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">version</td><td valign="top">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">delimiters</td><td valign="top">:</td><td><div><table><tr><td><div>{{</div></td></tr><tr><td><div>}}</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">files</td><td valign="top">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">flash</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">generic_patterns</td><td valign="top">:</td><td><div><table><tr><td><div>*</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">headers</td><td valign="top">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top">X-Powered-By</td><td valign="top">:</td><td><div>web2py</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">menu</td><td valign="top">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">meta</td><td valign="top">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">models_to_run</td><td valign="top">:</td><td><div><table><tr><td><div>^\\w+\\.py$</div></td></tr><tr><td><div>^appadmin/\\w+\\.py$</div></td></tr><tr><td><div>^appadmin/select/\\w+\\.py$</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">postprocessing</td><td valign="top">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">session_cookie_expires</td><td valign="top">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">session_data_name</td><td valign="top">:</td><td><div>session_data_amplify</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">session_file</td><td valign="top">:</td><td><div>&lt;open file &#x27;/Users/josyulakrishna/Documents/web2py_src/web2py/applications/Amplify/sessions/127.0.0.1-6dbe842e-d6c9-4345-851e-5914f55a0026&#x27;, mode &#x27;rb+&#x27; at 0x10ab54a50&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">session_filename</td><td valign="top">:</td><td><div>/Users/josyulakrishna/Documents/web2py_src/web2py/applications/Amplify/sessions/127.0.0.1-6dbe842e-d6c9-4345-851e-5914f55a0026</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">session_id</td><td valign="top">:</td><td><div>127.0.0.1-6dbe842e-d6c9-4345-851e-5914f55a0026</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">session_id_name</td><td valign="top">:</td><td><div>session_id_amplify</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">session_locked</td><td valign="top">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">session_new</td><td valign="top">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">session_storage_type</td><td valign="top">:</td><td><div>file</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">status</td><td valign="top">:</td><td><div>200</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">view</td><td valign="top">:</td><td><div>appadmin/select.html</div></td></tr></table></div>'
+tRp119
+sS'locals'
+p120
+(dp121
+S'Service'
+p122
+S"<class 'gluon.tools.Service'>"
+p123
+sS'OBJECT'
+p124
+S"<class 'gluon.html.OBJECT'>"
+p125
+sS'LOAD'
+p126
+S'<function LOAD>'
+p127
+sS'SQLDB'
+p128
+S"<class 'gluon.dal.DAL'>"
+p129
+sg112
+S'<Storage {\'last_query\': \'db.user_post.topic=="Co...login]\': \'9f0ac351-b39f-42a5-b3d2-69160fc6c541\'}>'
+p130
+sS'LINK'
+p131
+S"<class 'gluon.html.LINK'>"
+p132
+sS'Auth'
+p133
+S"<class 'gluon.tools.Auth'>"
+p134
+sS'BR'
+p135
+S"<class 'gluon.html.BR'>"
+p136
+sS'local_import'
+p137
+S'<function <lambda>>'
+p138
+sS'OPTGROUP'
+p139
+S"<class 'gluon.html.OPTGROUP'>"
+p140
+sS'LI'
+p141
+S"<class 'gluon.html.LI'>"
+p142
+sS'PRE'
+p143
+S"<class 'gluon.html.PRE'>"
+p144
+sS'IS_INT_IN_RANGE'
+p145
+S"<class 'gluon.validators.IS_INT_IN_RANGE'>"
+p146
+sS'IS_LOWER'
+p147
+S"<class 'gluon.validators.IS_LOWER'>"
+p148
+sS'IS_STRONG'
+p149
+S"<class 'gluon.validators.IS_STRONG'>"
+p150
+sS'cache'
+p151
+S'<gluon.cache.Cache object>'
+p152
+sS'IS_IN_DB'
+p153
+S"<class 'gluon.validators.IS_IN_DB'>"
+p154
+sS'feedparser'
+p155
+S"<module 'feedparser' from '/Users/josyulakrishna...onda/lib/python2.7/site-packages/feedparser.pyc'>"
+p156
+sS'SQLField'
+p157
+S"<class 'gluon.dal.Field'>"
+p158
+sS'BODY'
+p159
+S"<class 'gluon.html.BODY'>"
+p160
+sS'IS_DATE_IN_RANGE'
+p161
+S"<class 'gluon.validators.IS_DATE_IN_RANGE'>"
+p162
+sS'random'
+p163
+S"<module 'random' from '/Users/josyulakrishna/Doc...ythonPackages/anaconda/lib/python2.7/random.pyc'>"
+p164
+sS'TH'
+p165
+S"<class 'gluon.html.TH'>"
+p166
+sS'URL'
+p167
+S'<function URL>'
+p168
+sS'__file__'
+p169
+S"'/Users/josyulakrishna/Documents/web2py_src/web2py/applications/Amplify/models/db.py'"
+p170
+sS'db'
+p171
+S'<DAL uri="sqlite://storage.sqlite">'
+p172
+sS'auth'
+p173
+S'<gluon.tools.Auth object>'
+p174
+sS'P'
+S"<class 'gluon.html.P'>"
+p175
+sS'TFOOT'
+p176
+S"<class 'gluon.html.TFOOT'>"
+p177
+sS'XHTML'
+p178
+S"<class 'gluon.html.XHTML'>"
+p179
+sS'datetime'
+p180
+S"<module 'datetime' from '/Users/josyulakrishna/D.../anaconda/lib/python2.7/lib-dynload/datetime.so'>"
+p181
+sS'ON'
+p182
+S'True'
+p183
+sS'httplib'
+p184
+S"<module 'httplib' from '/Users/josyulakrishna/Do...thonPackages/anaconda/lib/python2.7/httplib.pyc'>"
+p185
+sS'OL'
+p186
+S"<class 'gluon.html.OL'>"
+p187
+sS'TEXTAREA'
+p188
+S"<class 'gluon.html.TEXTAREA'>"
+p189
+sS'MENU'
+p190
+S"<class 'gluon.html.MENU'>"
+p191
+sS'gravatar'
+p192
+S"<module 'applications.Amplify.modules.gravatar' from 'applications/Amplify/modules/gravatar.pyc'>"
+p193
+sS'defaultdict'
+p194
+S"<type 'collections.defaultdict'>"
+p195
+sS'CODE'
+p196
+S"<class 'gluon.html.CODE'>"
+p197
+sS'HTTP'
+p198
+S"<class 'gluon.http.HTTP'>"
+p199
+sS'HR'
+p200
+S"<class 'gluon.html.HR'>"
+p201
+sS'IS_DATETIME'
+p202
+S"<class 'gluon.validators.IS_DATETIME'>"
+p203
+sS'KMeans'
+p204
+S"<class 'sklearn.cluster.k_means_.KMeans'>"
+p205
+sS'LABEL'
+p206
+S"<class 'gluon.html.LABEL'>"
+p207
+sS'META'
+p208
+S"<class 'gluon.html.META'>"
+p209
+sS'plugins'
+p210
+S'<gluon.tools.PluginManager object>'
+p211
+sS'html5lib'
+p212
+S"<module 'html5lib' from '/Users/josyulakrishna/D...b/python2.7/site-packages/html5lib/__init__.pyc'>"
+p213
+sS'SELECT'
+p214
+S"<class 'gluon.html.SELECT'>"
+p215
+sS'scale'
+p216
+S'<function scale>'
+p217
+sS'CENTER'
+p218
+S"<class 'gluon.html.CENTER'>"
+p219
+sS'prettydate'
+p220
+S'<function prettydate>'
+p221
+sS'Crud'
+p222
+S"<class 'gluon.tools.Crud'>"
+p223
+sS'urllib'
+p224
+S"<module 'urllib' from '/Users/josyulakrishna/Doc...ythonPackages/anaconda/lib/python2.7/urllib.pyc'>"
+p225
+sS'treebuilders'
+p226
+S"<module 'html5lib.treebuilders' from '/Users/jos...ite-packages/html5lib/treebuilders/__init__.pyc'>"
+p227
+sS'__builtins__'
+p228
+S"{'ArithmeticError': <type 'exceptions.ArithmeticError'>, 'AssertionError': <type 'exceptions.AssertionError'>, 'AttributeError': <type 'exceptions.AttributeError'>, 'BaseException': <type 'exceptions.BaseException'>, 'BufferError': <type 'exceptions.BufferError'>, 'BytesWarning': <type 'exceptions.BytesWarning'>, 'DeprecationWarning': <type 'exceptions.DeprecationWarning'>, 'EOFError': <type 'exceptions.EOFError'>, 'Ellipsis': Ellipsis, 'EnvironmentError': <type 'exceptions.EnvironmentError'>, ...}"
+p229
+sS'HTML'
+p230
+S"<class 'gluon.html.HTML'>"
+p231
+sS'SQLFORM'
+p232
+S"<class 'gluon.sqlhtml.SQLFORM'>"
+p233
+sS'EM'
+p234
+S"<class 'gluon.html.EM'>"
+p235
+sS'redirect'
+p236
+S'<function redirect>'
+p237
+sS'FIELDSET'
+p238
+S"<class 'gluon.html.FIELDSET'>"
+p239
+sS'IS_EQUAL_TO'
+p240
+S"<class 'gluon.validators.IS_EQUAL_TO'>"
+p241
+sS'HEAD'
+p242
+S"<class 'gluon.html.HEAD'>"
+p243
+sS'embed64'
+p244
+S'<function embed64>'
+p245
+sS'Gravatar'
+p246
+S"<class 'applications.Amplify.modules.gravatar.Gravatar'>"
+p247
+sS'IS_LIST_OF'
+p248
+S"<class 'gluon.validators.IS_LIST_OF'>"
+p249
+sS'__name__'
+p250
+S"'__restricted__'"
+p251
+sS'EMBED'
+p252
+S"<class 'gluon.html.EMBED'>"
+p253
+sS'print_function'
+p254
+S"_Feature((2, 6, 0, 'alpha', 2), (3, 0, 0, 'alpha', 0), 65536)"
+p255
+sS'FORM'
+p256
+S"<class 'gluon.html.FORM'>"
+p257
+sS'CLEANUP'
+p258
+S"<class 'gluon.validators.CLEANUP'>"
+p259
+sS'H2'
+p260
+S"<class 'gluon.html.H2'>"
+p261
+sS'H3'
+p262
+S"<class 'gluon.html.H3'>"
+p263
+sS'BUTTON'
+p264
+S"<class 'gluon.html.BUTTON'>"
+p265
+sS'H1'
+p266
+S"<class 'gluon.html.H1'>"
+p267
+sS'H6'
+p268
+S"<class 'gluon.html.H6'>"
+p269
+sS'H4'
+p270
+S"<class 'gluon.html.H4'>"
+p271
+sS'H5'
+p272
+S"<class 'gluon.html.H5'>"
+p273
+sS'UL'
+p274
+S"<class 'gluon.html.UL'>"
+p275
+sS'total'
+p276
+S'12'
+p277
+sS'IS_UPPER'
+p278
+S"<class 'gluon.validators.IS_UPPER'>"
+p279
+sS'xmlescape'
+p280
+S'<function xmlescape>'
+p281
+sS'IS_TIME'
+p282
+S"<class 'gluon.validators.IS_TIME'>"
+p283
+sS'OPTION'
+p284
+S"<class 'gluon.html.OPTION'>"
+p285
+sS'TITLE'
+p286
+S"<class 'gluon.html.TITLE'>"
+p287
+sS'CRYPT'
+p288
+S"<class 'gluon.validators.CRYPT'>"
+p289
+sS'IS_EMPTY_OR'
+p290
+S"<class 'gluon.validators.IS_EMPTY_OR'>"
+p291
+sS'MARKMIN'
+p292
+S"<class 'gluon.html.MARKMIN'>"
+p293
+sS'INPUT'
+p294
+S"<class 'gluon.html.INPUT'>"
+p295
+sS'STRONG'
+p296
+S"<class 'gluon.html.STRONG'>"
+p297
+sS'COL'
+p298
+S"<class 'gluon.html.COL'>"
+p299
+sS'rows'
+p300
+S'<Rows (3)>'
+p301
+sS'service'
+p302
+S'<gluon.tools.Service object>'
+p303
+sS'SCRIPT'
+p304
+S"<class 'gluon.html.SCRIPT'>"
+p305
+sS'BeautifulSoup'
+p306
+S"<class 'bs4.BeautifulSoup'>"
+p307
+sS'json'
+p308
+S"<module 'json' from '/Users/josyulakrishna/Docum...ckages/anaconda/lib/python2.7/json/__init__.pyc'>"
+p309
+sS'TAG'
+p310
+S'<gluon.html.__TAG__ object>'
+p311
+sS'TABLE'
+p312
+S"<class 'gluon.html.TABLE'>"
+p313
+sS'IS_IPV4'
+p314
+S"<class 'gluon.validators.IS_IPV4'>"
+p315
+sS'IS_LENGTH'
+p316
+S"<class 'gluon.validators.IS_LENGTH'>"
+p317
+sS'IS_IPV6'
+p318
+S"<class 'gluon.validators.IS_IPV6'>"
+p319
+sS'XML'
+p320
+S"<class 'gluon.html.XML'>"
+p321
+sS'B'
+S"<class 'gluon.html.B'>"
+p322
+sS'IMG'
+p323
+S"<class 'gluon.html.IMG'>"
+p324
+sS'SQLTABLE'
+p325
+S"<class 'gluon.sqlhtml.SQLTABLE'>"
+p326
+sS'IS_MATCH'
+p327
+S"<class 'gluon.validators.IS_MATCH'>"
+p328
+sS'IS_ALPHANUMERIC'
+p329
+S"<class 'gluon.validators.IS_ALPHANUMERIC'>"
+p330
+sS'SPAN'
+p331
+S"<class 'gluon.html.SPAN'>"
+p332
+sS'IS_JSON'
+p333
+S"<class 'gluon.validators.IS_JSON'>"
+p334
+sS'IS_IPADDRESS'
+p335
+S"<class 'gluon.validators.IS_IPADDRESS'>"
+p336
+sS'IS_SLUG'
+p337
+S"<class 'gluon.validators.IS_SLUG'>"
+p338
+sS'BEAUTIFY'
+p339
+S"<class 'gluon.html.BEAUTIFY'>"
+p340
+sS'IS_DATE'
+p341
+S"<class 'gluon.validators.IS_DATE'>"
+p342
+sS'IS_EMAIL'
+p343
+S"<class 'gluon.validators.IS_EMAIL'>"
+p344
+sS'IS_NOT_EMPTY'
+p345
+S"<class 'gluon.validators.IS_NOT_EMPTY'>"
+p346
+sS'IS_FLOAT_IN_RANGE'
+p347
+S"<class 'gluon.validators.IS_FLOAT_IN_RANGE'>"
+p348
+sS'sanitizer'
+p349
+S"<module 'html5lib.sanitizer' from '/Users/josyul.../python2.7/site-packages/html5lib/sanitizer.pyc'>"
+p350
+sS'TBODY'
+p351
+S"<class 'gluon.html.TBODY'>"
+p352
+sS'CAT'
+p353
+S"<class 'gluon.html.CAT'>"
+p354
+sS'Field'
+p355
+S"<class 'gluon.dal.Field'>"
+p356
+sS'DIV'
+p357
+S"<class 'gluon.html.DIV'>"
+p358
+sS'LEGEND'
+p359
+S"<class 'gluon.html.LEGEND'>"
+p360
+sS'COLGROUP'
+p361
+S"<class 'gluon.html.COLGROUP'>"
+p362
+sS'DAL'
+p363
+S"<class 'gluon.dal.DAL'>"
+p364
+sS'TT'
+p365
+S"<class 'gluon.html.TT'>"
+p366
+sS'TR'
+p367
+S"<class 'gluon.html.TR'>"
+p368
+sS'__package__'
+p369
+S'None'
+p370
+sS'IFRAME'
+p371
+S"<class 'gluon.html.IFRAME'>"
+p372
+sS'np'
+p373
+S"<module 'numpy' from '/Users/josyulakrishna/Docu.../lib/python2.7/site-packages/numpy/__init__.pyc'>"
+p374
+sS'TD'
+p375
+S"<class 'gluon.html.TD'>"
+p376
+sS'PluginManager'
+p377
+S"<class 'gluon.tools.PluginManager'>"
+p378
+sS'IS_URL'
+p379
+S"<class 'gluon.validators.IS_URL'>"
+p380
+sS'A'
+S"<class 'gluon.html.A'>"
+p381
+sS'STYLE'
+p382
+S"<class 'gluon.html.STYLE'>"
+p383
+sS'IS_DATETIME_IN_RANGE'
+p384
+S"<class 'gluon.validators.IS_DATETIME_IN_RANGE'>"
+p385
+sS'IS_IMAGE'
+p386
+S"<class 'gluon.validators.IS_IMAGE'>"
+p387
+sS'I'
+S"<class 'gluon.html.I'>"
+p388
+sS'crud'
+p389
+S'<gluon.tools.Crud object>'
+p390
+sS'IS_NOT_IN_DB'
+p391
+S"<class 'gluon.validators.IS_NOT_IN_DB'>"
+p392
+sg118
+S"<Storage {'body': <cStringIO.StringO object at 0...at 0x10bc84cf8>, 'view': 'appadmin/select.html'}>"
+p393
+sS'THEAD'
+p394
+S"<class 'gluon.html.THEAD'>"
+p395
+sS'ANY_OF'
+p396
+S"<class 'gluon.validators.ANY_OF'>"
+p397
+sS'IS_NULL_OR'
+p398
+S"<class 'gluon.validators.IS_EMPTY_OR'>"
+p399
+sg56
+S'<Storage {\'function\': \'select\', \'body\': <open fi... \'db.user_post.topic=="ComputersTechonology"\'}>}>'
+p400
+sS'IS_EXPR'
+p401
+S"<class 'gluon.validators.IS_EXPR'>"
+p402
+sS'IS_IN_SET'
+p403
+S"<class 'gluon.validators.IS_IN_SET'>"
+p404
+sS'IS_UPLOAD_FILENAME'
+p405
+S"<class 'gluon.validators.IS_UPLOAD_FILENAME'>"
+p406
+sS'IS_DECIMAL_IN_RANGE'
+p407
+S"<class 'gluon.validators.IS_DECIMAL_IN_RANGE'>"
+p408
+sS'T'
+S'<gluon.languages.translator object>'
+p409
+sssS'traceback'
+p410
+S'Traceback (most recent call last):\n  File "/Users/josyulakrishna/Documents/web2py_src/web2py/gluon/restricted.py", line 212, in restricted\n    exec ccode in environment\n  File "/Users/josyulakrishna/Documents/web2py_src/web2py/applications/Amplify/models/db.py", line 74, in <module>\n    rows.update(db.user_post.topic=="ComputersTechnology")\nAttributeError: \'Rows\' object has no attribute \'update\'\n'
+p411
+s.

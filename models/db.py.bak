@@ -70,5 +70,5 @@ total = len(db(db.auth_user.id>0).select())
 #print(total)
 #db.user_interests._after_insert.append(make_clusters)
 #db.user_interests._after_update.append(make_clusters)
-
-allCategories = ['Science', 'Arts', 'Bussiness and Economy', 'Computers and Techonology', 'Health', 'Home and Domestic Life', 'News','Recreation Activities', 'Reference Education', 'Shopping', 'Society', 'Sports']
+#db(db.user_post.topic=="ComputersTechonology").update(topic="ComputersTechnology")
+allCategories = ['Science', 'Arts', 'Bussiness and Economy', 'Computers and Technology', 'Health', 'Home and Domestic Life', 'News','Recreation Activities', 'Reference Education', 'Shopping', 'Society', 'Sports']
