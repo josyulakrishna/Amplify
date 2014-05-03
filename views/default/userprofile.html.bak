@@ -1,5 +1,5 @@
 {{extend 'flatLayout.html'}}
-{{print "in view"+name}}
+{{#print "in view"+name}}
 <script>
       jQuery(document).ready(function ($) {
         $('#tabs').tab();
@@ -72,9 +72,7 @@
     <div class="circle" style="background-image:url({{=Gravatar(auth.user.email).thumb}})"></div>
 <div class="span12">
     <div id="content" style="overflow:scroll;"> 
-        {{print "iterating posts"}}
                 {{for post in posts:}}
-                    {{print post}}
                     <div class="post">
                         {{if post.liked_by_user:}}
                         {{=len(post.liked_by_user)}}

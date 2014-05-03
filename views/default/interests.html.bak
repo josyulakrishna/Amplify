@@ -59,7 +59,7 @@
             context: document.body,
 
     }).done(function(){alert('done');
-                       window.location.replace({{=URL(c="news" ,f="social")}});
+                       window.location.replace("{{=URL(c='news',f='social')}}");
     });
     }
 	else{

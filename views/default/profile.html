@@ -73,9 +73,7 @@
 		    <div id="my-tab-content" class="tab-content">
 	        <div class="tab-pane active" id="posts">
                 {{posts = db(db.user_post.posted_by_user==auth.user_id).select()}}
-	          {{print "iterating posts"}}
                 {{for post in posts:}}
-                    {{print post}}
                     <div class="post">
                         {{if post.liked_by_user:}}
                         {{=len(post.liked_by_user)}}

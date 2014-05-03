@@ -18,11 +18,6 @@ def index():
     return auth.wiki()
 
     """
-    #drone_posts()
-    #create_drones()
-    #create_news()
-    #make_clusters()
-    
     if auth.is_logged_in():
         name  = db.auth_user[auth.user_id].first_name
     else:
@@ -31,14 +26,18 @@ def index():
 
 @auth.requires_login()
 def userprofile():
-     print "userprofile", datetime.datetime.now()
-     user = db.auth_user(db.auth_user.username==request.args(0)) or redirect(URL('error'))
-     print user
-     print "getting username"
-     name=user.first_name+" "+user.last_name
-     if name=="":
-         name = user['username']
-     posts = db(db.user_post.posted_by_user == user).select()
+     #print "userprofile", datetime.datetime.now()
+     user = db(db.auth_user.username==request.args(0)).select() or redirect(URL('error'))
+     print user 
+     for row in user: 
+         id = row.id
+         username = row.username
+         name = row.first_name+" "+row.last_name
+
+     if name == " ":
+         name = username
+     print name
+     posts = db(db.user_post.posted_by_user == id).select()
 #     print posts
      return locals()
 
@@ -100,14 +99,14 @@ def interests():
     if row:
         for i,word in enumerate(db.user_interests.fields[2:]):
             filled_interests[field_list[i]] = row[0][word]
-        print filled_interests
+        #print filled_interests
     else:
         noInterest = 'none'
     return locals()
 
 def set_interests():
-    print "in set interest"
-    print(auth.user_id)
+   # print "in set interest"
+   # print(auth.user_id)
     field_list = ['Science', 'Arts', 'Bussiness and Economy', 'Computers and Techonology', 'Health', 'Home and Domestic Life', 'News','Recreation Activities', 'Reference Education', 'Shopping', 'Society', 'Sports']
     for interest in request.vars.values()[0]:
         if interest in field_list:
@@ -117,28 +116,28 @@ def set_interests():
             field_list[index] = False
     fieldDict = dict(zip(db.user_interests.fields[2:], field_list))
     fieldDict['user_id']  = auth.user_id
-    print fieldDict
+    #print fieldDict
     row = db(db.user_interests.user_id==auth.user_id).select()
-    print row
+    #print row
     row = db(db.user_interests.user_id==auth.user_id).count()
-    print row
+   # print row
     if row:
-        print "if"
+    #    print "if"
         db(db.user_interests.user_id==auth.user_id).update(**fieldDict)
         if db(db.user_clusters.id > 0).count() > 100: 
-            print "calling knn select"
+      #      print "calling knn select"
             knnSelect(auth.user_id)
         else:
-            print "calling make_clusters"
+      #      print "calling make_clusters"
             make_clusters()
     else:
-        print "in else"
+       # print "in else"
         db.user_interests.insert(**fieldDict)
         if db(db.user_clusters.id > 0).count() > 100: 
-            print "calling knn select"
+         #   print "calling knn select"
             knnSelect(auth.user_id)
         else:
-            print "calling make_clusters"
+          #  print "calling make_clusters"
             make_clusters()
 
     

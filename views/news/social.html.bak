@@ -62,10 +62,15 @@
 		  box-shadow: 0 3px 2px rgba(0, 0, 0, 0.3);  
 	      z-index: 10000;
 	}
-    .post{
-        
-        
+    {{ =' ,'.join(['.'+field for field in db.user_interests.fields[2:]])}}{	
+        box-shadow :inset 0px 0px 10px 0px #6c6969 ;
+        border-radius : 8px;
+	    margin: 5px 0px 20px 0px;
+        padding-left: 20px;
+        padding-bottom: 10px;
     }
+
+
 </style>
 
 <script>
@@ -81,7 +86,7 @@
             category=category.replace("and", "");
             category=category.replace(/ /g,'');
 
-            alert(category);
+            
             if (link==''){ 
 				alert("url cannot be empty");
 				$('.form-group').addClass("has-error");
@@ -93,9 +98,9 @@
             	context: document.body
 
             }).done(function(){
-                alert("posted!");
                 $('#description').val('');
                 $('#link').val('');
+                alert("Posted!");
                 });
             }
        }
@@ -185,7 +190,7 @@
             		<h1 class="lead">Thoughts for you</h1>
                         {{for key in posts.keys(): }}
                         	{{for post in posts[key]: }}
-                        <div class="{{=post[3]}}" >
+            <div class="{{=post[3]}}">
                         <span class="circle" style='background-image:url({{=Gravatar(key[1]).thumb}})'
                          onclick="location.href='{{=URL(c="default", f="userprofile", args=[key[2]])}}'" ></span> 
 		<p><span style="padding-right:10px"><strong id="votes" class="{{=post[4]}}" >{{=len(post[2]) if post[2] else 0}}</strong></span> {{=post[0]}}</p>                      <a href="{{=post[1]}}">{{=post[1]}}</a> 

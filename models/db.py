@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
-from gluon.contrib.gravatar import Gravatar
 import datetime, random, feedparser
 from collections import defaultdict
 import httplib, urllib, json
@@ -12,6 +11,9 @@ import numpy as np
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import scale
 import json
+
+gravatar = local_import("gravatar")
+Gravatar = gravatar.Gravatar
 
 db = DAL('sqlite://storage.sqlite',pool_size=1,check_reserved=['all'])
 response.generic_patterns = ['*'] if request.is_local else []

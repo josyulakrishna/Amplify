@@ -11,7 +11,7 @@ import json
 import random
 
 total = len(db(db.auth_user.id>0).select())
-print total
+#print total
 
 def make_clusters():
     if total<=10:
@@ -33,16 +33,16 @@ def make_clusters():
         for topic in db.user_interests.fields[2:]:
             empty.append(row[topic])
         aggregate.append(empty)
-        print "aggregate ",aggregate
+        #print "aggregate ",aggregate
     aggregate = np.array(aggregate)
     t_aggregate = np.zeros((i,12))
     t_aggregate[aggregate] = 1
-    print "t_aggregate ",t_aggregate
+    #print "t_aggregate ",t_aggregate
     kmeans = KMeans(n_clusters=clusters,init='random',n_jobs=1,n_init=20,max_iter=500)
     d = kmeans.fit_predict(t_aggregate)
     d = d.tolist()
-    print user_index
-    print d
+    #print user_index
+    #print d
     for j in range(len(d)):
         db.user_clusters.insert(user_id = user_index[j], cluster_id = int(d[j]) )
     knnMake()
@@ -59,18 +59,18 @@ def knnMake():
     for row in rows:
         clusterId.append(row.cluster_id)
     clusterId = set(clusterId)
-    print clusterId
+    #print clusterId
     for cluster in clusterId:
         rows = db(db.user_clusters.cluster_id==cluster).select() #get rows where clusterid=clusterid
         for row in rows:
             clusterUser.setdefault(cluster,[]).append(row.user_id)
-    print "finished getting rows"
+    #print "finished getting rows"
 
     #get users interests
     clusterInterests = {}
     temp = []
     for cluster in clusterId:
-        print cluster, datetime.datetime.now()
+        #print cluster, datetime.datetime.now()
         for v in clusterUser[cluster]:
             rows = db(db.user_interests.user_id == v).select(*db.user_interests.fields[2:])
             for row in rows:
@@ -78,8 +78,8 @@ def knnMake():
                     temp.append(row[f])
                 clusterInterests.setdefault(cluster,[]).append(temp)
                 temp = []
-        print clusterInterests
-        print "finished getting clusterInterests"
+        #print clusterInterests
+        #print "finished getting clusterInterests"
 
     #converting the arrays to numpy format with zeros and ones
     zeros = np.zeros(len(db.user_interests.fields[2:]))
@@ -93,7 +93,7 @@ def knnMake():
        nArrayUserInterests = scale(tArrayUserInterests, axis=0, with_mean=True, with_std=True, copy=True )
        avgtArrayUserInterests = tArrayUserInterests.sum(axis=0)/float(len(clusterInterests[k]))
        db.knnRef.insert(cluster_id = int(k) ,**dict(zip(db.knnRef.fields[2:],avgtArrayUserInterests)))
-    print "finished making clusters"
+    #print "finished making clusters"
     return 0
     
     
@@ -103,8 +103,8 @@ def knnMake():
 def knnSelect(userid):
     #getting all rows into an numpy array
     aggregateRows = [] 
-    print db.knnRef.fields[1:]
-    print len(db.knnRef.fields[1:])
+    #print db.knnRef.fields[1:]
+    #print len(db.knnRef.fields[1:])
     for row in db(db.knnRef.id>0).select(): 
         aRow = []
         for field in db.knnRef.fields[1:]:
@@ -113,7 +113,7 @@ def knnSelect(userid):
     #making the knn operations
     aggregateRows = np.array(aggregateRows)
     aggregateRows = aggregateRows.astype(float)
-    print "computing knn"
+    #print "computing knn"
     knnOut = aggregateRows[:, 0]
     knnIn = aggregateRows[:,1:]
     knn = neighbors.KNeighborsClassifier( weights='distance',metric='minkowski')
@@ -122,8 +122,8 @@ def knnSelect(userid):
         aRow = []
         for field in db.knnRef.fields[2:]:
                aRow.append(row[field])
-    print aRow
-    print len(aRow)
+    #print aRow
+    #print len(aRow)
     aRow = np.array(aRow[1:])
     aRow = aRow.astype(float)
     clusterId =  knn.predict(aRow)

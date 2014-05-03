@@ -5,7 +5,7 @@ import json
 from bs4 import BeautifulSoup
 @auth.requires_login()
 def social(): 
-    print db(db.user_interests.user_id==auth.user_id).select()
+    #print db(db.user_interests.user_id==auth.user_id).select()
     if db(db.user_interests.user_id==auth.user_id).select():
         fill = True
         posts = get_posts()
@@ -40,9 +40,9 @@ def get_posts():
      
 def fetchNews(): 
     category = request.vars.category
-    print category
+    #print category
     category = category.replace("and",'').replace(" ",'')
-    print category
+    #print category
     news = db(db.user_post.topic==category).select()
     #print news.url
     #print new.description
@@ -50,48 +50,46 @@ def fetchNews():
 #ajax method at new/social.html
 def post_news(): 
     description,link,category =  request.vars['des'], request.vars['link'],request.vars['category']
-    val =  link.startswith("http://www.")
+    val =  link.startswith("http://") or link.startswith("https://")
     if not val:
         link = ''.join(("http://www." ,link))
-        print link
+        #print link
     if description=="":
-        print "getting description"
+        #print "getting description"
         opener = urllib2.build_opener()
         external_sites_html = opener.open(link).read()
         soup = BeautifulSoup(external_sites_html)
         title = soup.title.string
         description= title
-    print "out of control"
-    print [ category, link, description]
+   # print "out of control"
+    #print [ category, link, description]
     topicDeUrl = dict(zip( db.user_post.fields[3:], [ category, link, description] ))
-    print topicDeUrl, dict(zip(['posted_by_user','url',],[auth.user_id,link]))
+    #print topicDeUrl, dict(zip(['posted_by_user','url',],[auth.user_id,link]))
     db.user_post.insert(posted_by_user=auth.user_id, **topicDeUrl)
-    print "done!"
+    #print "done!"
 
 
 def like():
-    print "called like" ,datetime.datetime.now()
+   # print "called like" ,datetime.datetime.now()
     row = db(db.user_post.id == request.vars.id).select()
     likedUsers = row[0].liked_by_user
-    
-
     if likedUsers:
         likedUsers = map(int, likedUsers)
         if int(request.vars.userid) in likedUsers:
-            print "remove"
+           # print "remove"
             likedUsers.remove(int(request.vars.userid))
             db(db.user_post.id == request.vars.id).update(**{'liked_by_user':likedUsers})
             return response.json(json.dumps({"like":"unlike"}))
         else: 
-            print "append else if"
+           # print "append else if"
             likedUsers.append(int(request.vars.userid))
-            print likedUsers
+           # print likedUsers
             db(db.user_post.id == request.vars.id).update(**{'liked_by_user':likedUsers})
             return response.json(json.dumps({"like":"like"}))
     else:
-        print "append else"
+       # print "append else"
         likedUsers = [] 
         likedUsers.append(int(request.vars.userid))
-        print request.vars.userid, request.vars.id
+       # print request.vars.userid, request.vars.id
         db(db.user_post.id == request.vars.id).update(**{'liked_by_user':likedUsers})
         return response.json(json.dumps({"like":"like"}))
