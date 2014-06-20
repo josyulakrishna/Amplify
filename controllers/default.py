@@ -28,7 +28,7 @@ def index():
 def userprofile():
      #print "userprofile", datetime.datetime.now()
      user = db(db.auth_user.username==request.args(0)).select() or redirect(URL('error'))
-     print user 
+     #print user 
      for row in user: 
          id = row.id
          username = row.username
@@ -36,7 +36,7 @@ def userprofile():
 
      if name == " ":
          name = username
-     print name
+     #print name
      posts = db(db.user_post.posted_by_user == id).select()
 #     print posts
      return locals()
